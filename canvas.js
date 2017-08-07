@@ -4,22 +4,6 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let c = canvas.getContext('2d');
-// //c.fillRect(x,y,width,height);
-
-// c.fillStyle = 'rgba(0,0,0,0.5)';
-// c.fillRect(100,100,100,100);
-// console.log(canvas);
-
-
-// //Line
-// c.beginPath();
-// c.moveTo(50,300);
-// c.lineTo(300,100);
-// c.lineTo(400,300);
-// c.strokeStyle = "#fa34a3";
-// c.stroke();
-
-// c.fillRect(100,100,10,10);
 
 //conway's game of life
 const onValue = 0; 
@@ -227,78 +211,15 @@ requestAnimationFrame(playGame);
 
 c.fillStyle = 'rgba(0,0,0,1)';
 
-// c.fillRect(0,0,boxSize,boxSize);
-// c.fillRect(0,10,boxSize,boxSize);
-// c.fillRect(10,10,boxSize,boxSize);
-// c.fillRect(10,0,boxSize,boxSize);
-// test1 = checkNeighbors(0,0);
-// console.log(test1);
-
-// console.log(c.getImageData(0,0,1,1).data);
-// let initialBoard1 = setInitialCondition1();
-
-// console.log("The inital condition board cords are...");
-// console.log(initialBoard1);
-
-
-// let testSur1 = getSurroundingCords(0,0);
-// console.log(testSur1);
-// let testSur2 = getSurroundingCords(10,10);
-// console.log(testSur2);
-// console.log("Testing cords to be checked");
-// console.log(initialBoard1.length);
-// let testCordsToBe = getCordsToBeChecked(initialBoard1);
-// console.log("it returned");
-// console.log(testCordsToBe);
-
-// console.log("Testing get next cords");
-// let testNextCords = getNextBoard(initialBoard1);
-// console.log(testNextCords);
-
-// console.log("Testing checkNeighbors")
-// let testNumNeighbors = checkNeighbors(0,10);
-// console.log(testNumNeighbors);
 let offset = 100;
+let offset2 = 200;
+let offset3 = 300;
 let testBoard = [[20+offset,0+offset],[20+offset,10+offset],[20+offset,20+offset],[10+offset,20+offset],[0+offset,10+offset]];
-let activeBoardCords = drawBoard(testBoard);
+let testBoard2 = [[20+offset2,0+offset],[20+offset2,10+offset],[20+offset2,20+offset],[10+offset2,20+offset],[0+offset2,10+offset]];
+// let testBoard3 = [[20+offset3,0+offset],[20+offset3,10+offset],[20+offset3,20+offset],[10+offset3,20+offset],[0+offset3,10+offset]];
+let testBoard4 = testBoard.concat(testBoard2);
+let activeBoardCords = drawBoard(testBoard4);
 console.log(activeBoardCords);
 first = true;
 // clearBoard();
 playGame();
-
-// let newBoard = getNextBoard(activeBoardCords);
-
-// console.log(newBoard);
-// console.log(checkNeighbors(0,30));
-// console.log(isAlive(0,30));
-
-
-// for (let x = 0; x < window.innerWidth-5; x += 20){
-// 	for (let y = 0; y < window.innerHeight-5; y += 20){
-// 		c.fillRect(x,y,10,10);
-// 		c.fillStyle = 'rgba(0,0,0,0,1)';
-// 		c.fillRect(x+10,y+10,10,10);
-// 		c.fillStyle = 'rgba(0,0,255,1)';
-// 	}
-// 	if (c.getImageData(x,y,1,1).data[2] === onValue){
-// 		if()
-// 	}
-// }
-
-// console.log(c.getImageData(0,0,1,1).data);
-// console.log(c.getImageData(0,10,1,1).data);
-// console.log(c.getImageData(0,20,1,1).data);
-
-
-
-
-
-// for (let x = 0; x < window.innerWidth; x = x+10){
-// 	if( x/10 % 2 === 0){
-// 		c.fillStyle = 'rgba('
-// 		c.fillRect(x,100, 5, 5);
-// 	}
-// 	else{
-
-// 	}
-// }
