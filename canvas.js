@@ -29,6 +29,37 @@ aliveCords.push([10,0]);
 return aliveCords;
 }
 
+function glider(x,y){
+	let glider = [[20+x,0+y],[20+x,10+y],[20+x,20+y],[10+x,20+y],[0+x,10+y]];
+	return glider;
+}
+
+function square(x,y){
+return [[0+x,0+y],[0+x,10+y],[10+x,0+y],[10+x,10+y]];
+}
+
+function doubleArrow(x,y){
+return [[10+x,0+y],[20+x,0+y],[0+x,10+y],[20+x,10+y],[0+x,20+y],[10+x,20+y]];
+}
+
+function upsideDownGlider(x,y){
+	return [[0+x,0+y],[10+x,0+y],[0+x,10+y],[20+x,10+y],[0+x,20+y]];
+}
+
+function sidewaysGlider(x,y){
+	return [[0+x,0+y],[10+x,0+y],[20+x,0+y],[0+x,10+y],[10+x,20+y]];
+}
+
+function failedGliderGunButAwesome(x,y){
+	let gliderGun = square(0+x,20+y).concat(doubleArrow(80+x,20+y)).concat(upsideDownGlider(160+x,40+y)).concat(doubleArrow(220+x,0+y)).concat(sidewaysGlider(240+x,120+y)).concat(square(340+x,0+y)).concat(upsideDownGlider(350+x,80+y));
+	return gliderGun;
+}
+
+function GliderGun(x,y){
+	let gliderGun = square(0+x,20+y).concat(doubleArrow(80+x,20+y)).concat(upsideDownGlider(160+x,40+y)).concat(doubleArrow(220+x,0+y)).concat(sidewaysGlider(240+x,120+y)).concat(square(340+x,0+y)).concat(upsideDownGlider(350+x,70+y));
+	return gliderGun;
+}
+
 function drawBoard (cords){
 let aliveCords = [];
 for (i =0; i<cords.length; i +=1){
@@ -127,8 +158,6 @@ if (x-boxSize >= 0){
 	surroundingCords.push([x-boxSize,y]);
 	if (y+boxSize < windowHeight) surroundingCords.push([x-boxSize, y+boxSize]);
 }
-
-
 return surroundingCords;
 }
 
@@ -140,12 +169,9 @@ function getUnique (cords){
 		let notUnique = false;
 		let x = cords[indexOuter][0];
 		let y = cords[indexOuter][1];
-		console.log("here");
 		for (let indexInner = 0; indexInner < uniqueCords.length; indexInner += 1){
-			console.log("checking "+x+ " and " + y + " vs "+ uniqueCords[indexInner][0]+ " and " + uniqueCords[indexInner][1]);
 			if (uniqueCords[indexInner][0] === x && uniqueCords[indexInner][1] === y){
 				notUnique = true;
-				console.log("TRUE");
 			}
 		}
 		if (!notUnique) uniqueCords.push([x,y]);  
@@ -180,46 +206,18 @@ function getNextBoard (activeBoardCords) {
 return nextActiveBoardCords;
 }
 
-//@ returns an array of min & max cords of active board
-//          
-function getActiveBoardCords(nextPop){
-	let aliveCords = [];
-	for(let x = 0; x < boardWidth; x += 1){
-		for(let y = 0; y < boardHeight; y +=1){
-			let xCord = x * boxSize;
-			let yCord = y * boxSize;
-			if (isAlive(xCord,yCord)) aliveCords.push([xCord,yCord]);	
-			console.log("what is taking so long?");
-		}
-	}
-return aliveCords;
-}
-
-
 function playGame() {
 requestAnimationFrame(playGame);
 
  let newBoard = getNextBoard(activeBoardCords);
  c.clearRect(0,0,windowWidth,windowHeight);
- // if (first){
- // 	clearBoard();
- // 	first = false;
- // }
  drawBoard(newBoard);
  activeBoardCords = newBoard;
 }
 
 c.fillStyle = 'rgba(0,0,0,1)';
 
-let offset = 100;
-let offset2 = 200;
-let offset3 = 300;
-let testBoard = [[20+offset,0+offset],[20+offset,10+offset],[20+offset,20+offset],[10+offset,20+offset],[0+offset,10+offset]];
-let testBoard2 = [[20+offset2,0+offset],[20+offset2,10+offset],[20+offset2,20+offset],[10+offset2,20+offset],[0+offset2,10+offset]];
-// let testBoard3 = [[20+offset3,0+offset],[20+offset3,10+offset],[20+offset3,20+offset],[10+offset3,20+offset],[0+offset3,10+offset]];
-let testBoard4 = testBoard.concat(testBoard2);
-let activeBoardCords = drawBoard(testBoard4);
-console.log(activeBoardCords);
-first = true;
-// clearBoard();
+
+
+let activeBoardCords = drawBoard(GliderGun(400,300));
 playGame();
