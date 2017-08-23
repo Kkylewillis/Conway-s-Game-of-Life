@@ -4,6 +4,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let c = canvas.getContext('2d');
+let isPaused = false;
 
 //conway's game of life
 const onValue = 0; 
@@ -206,14 +207,27 @@ function getNextBoard (activeBoardCords) {
 return nextActiveBoardCords;
 }
 
-function playGame() {
-requestAnimationFrame(playGame);
-
- let newBoard = getNextBoard(activeBoardCords);
- c.clearRect(0,0,windowWidth,windowHeight);
- drawBoard(newBoard);
- activeBoardCords = newBoard;
+function pause(req) {
+	cancelAnimationFrame(req);
 }
+
+function playGame() {
+	req = requestAnimationFrame(playGame);
+	if (isPaused) {
+		pause(req);
+	}
+  let newBoard = getNextBoard(activeBoardCords);
+  c.clearRect(0,0,windowWidth,windowHeight);
+	drawBoard(newBoard);
+	activeBoardCords = newBoard;
+}
+
+window.onkeydown = () => {
+		isPaused = !isPaused; // flips the pause state
+		if (!isPaused) {
+			playGame();
+		}
+};
 
 c.fillStyle = 'rgba(0,0,0,1)';
 
@@ -221,3 +235,4 @@ c.fillStyle = 'rgba(0,0,0,1)';
 
 let activeBoardCords = drawBoard(GliderGun(400,300));
 playGame();
+

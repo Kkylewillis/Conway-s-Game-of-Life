@@ -1,0 +1,5 @@
+{
+  "name"    : "conway's-game-of-life",
+  "version" : "0.1.0",
+  "main"    : "main.js"
+}
