@@ -17,7 +17,7 @@ console.log("The boardWidth is " + boardWidth + ".");
 console.log("The boardHeight is " + boardHeight + ".");
 console.log(Math.floor(3/2));
 
-function setInitialCondition1(){
+function setInitialCondition1(){	
 let aliveCords = [];
 c.fillRect(0,0,boxSize,boxSize);
 aliveCords.push([0,0]);
@@ -222,17 +222,71 @@ function playGame() {
 	activeBoardCords = newBoard;
 }
 
-window.onkeydown = () => {
-		isPaused = !isPaused; // flips the pause state
-		if (!isPaused) {
-			playGame();
+function getGridBoxPosistion(rawCord) {
+	rawCordRemainder =	rawCord % boxSize;
+	boxCord = rawCord - rawCordRemainder + boxSize;
+	return boxCord;
+}
+
+function drawOnClick(event) {
+	if (isPaused) {
+		x = event.clientX;
+		y = event.clientY;
+		console.log("x: " + x +" y: " + y);
+		gridX = getGridBoxPosistion(x);
+		gridY = getGridBoxPosistion(y);
+		console.log("calc gridX: " + gridX + " calc gridY " + gridY);
+		c.fillRect(gridX,gridY,boxSize,boxSize);
+	}
+}
+
+let lastGridX;
+let lastGridY;
+let first = true;
+function showGridPosition(event) {
+	if (isPaused) {
+		x = event.clientX;
+		y = event.clientY;
+		gridX = getGridBoxPosistion(x);
+		gridY = getGridBoxPosistion(y);
+		if (!isAlive(gridX, gridY)) {
+			if (!first && !isAlive(lastGridX,lastGridY)) {
+				c.fillStyle = 'rgba(255,255,255,1)';
+				c.fillRect(lastGridX,lastGridY,boxSize,boxSize);
+			} else {
+				first = false;
+			}
+			lastGridX = gridX;
+			lastGridY = gridY;
+			c.fillStyle = 'rgba(255,50,50,1)';
+			c.fillRect(gridX,gridY,boxSize,boxSize);
+			c.fillStyle = 'rgba(0,0,0,1)';
 		}
+	}
+}
+
+window.onkeydown = () => {
+isPaused = !isPaused; // flips the pause state
+			if (!isPaused) {
+				playGame();
+			}
 };
+document.addEventListener("click", drawOnClick);
+document.onmousemove = showGridPosition;
 
 c.fillStyle = 'rgba(0,0,0,1)';
 
-
+//TODO:
+//rethink next board check can I use geometry to determine alive or dead
+//pause/play button
+//design app layout
+//editor mode -> set own initial condition based on where you click
+//box size slider
+//pre-programmed pre-conditions
+//drag and drop pre-conditions
+//auto center finder
 
 let activeBoardCords = drawBoard(GliderGun(400,300));
 playGame();
+
 
