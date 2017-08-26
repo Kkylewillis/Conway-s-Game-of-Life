@@ -17,6 +17,11 @@ console.log("The boardWidth is " + boardWidth + ".");
 console.log("The boardHeight is " + boardHeight + ".");
 console.log(Math.floor(3/2));
 
+
+// class GameBoard {
+// 	public 
+// }
+
 function setInitialCondition1(){	
 let aliveCords = [];
 c.fillRect(0,0,boxSize,boxSize);
@@ -237,6 +242,7 @@ function drawOnClick(event) {
 		gridY = getGridBoxPosistion(y);
 		console.log("calc gridX: " + gridX + " calc gridY " + gridY);
 		c.fillRect(gridX,gridY,boxSize,boxSize);
+		activeBoardCords.push([gridX,gridY]);
 	}
 }
 
@@ -265,11 +271,13 @@ function showGridPosition(event) {
 	}
 }
 
-window.onkeydown = () => {
-isPaused = !isPaused; // flips the pause state
-			if (!isPaused) {
-				playGame();
-			}
+window.onkeydown = (event) => {
+	if (event.key === " ") {
+		isPaused = !isPaused;
+		if (!isPaused) {
+			playGame();
+		}
+	}
 };
 document.addEventListener("click", drawOnClick);
 document.onmousemove = showGridPosition;
