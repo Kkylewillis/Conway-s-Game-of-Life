@@ -1,9 +1,26 @@
 let canvas = document.querySelector('canvas');
-
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
+canvas.height = window.innerHeight-70;
 let c = canvas.getContext('2d');
+let paused = false;
+
+document.addEventListener("keydown", function(event) {
+  if (event.code === "Space") {
+    paused = !paused;
+  }
+});
+
+document.addEventListener("click", function(event) {
+  console.log(event);
+  console.log(event.path[0].offsetTop);
+  if (paused) {
+  let x = event.screenX - event.screenX%10; 
+  let y = event.screenY - event.screenY%10 - 100 - event.path[0].offsetTop; 
+  c.fillRect(x,y,boxSize,boxSize);
+  activeBoardCords = activeBoardCords.concat([[x, y]]);
+  }
+});
+
 
 //conway's game of life
 const onValue = 0; 
@@ -12,9 +29,6 @@ const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const boardWidth = Math.floor(window.innerWidth/boxSize);
 const boardHeight = Math.floor(window.innerHeight/boxSize);
-console.log("The boardWidth is " + boardWidth + ".");
-console.log("The boardHeight is " + boardHeight + ".");
-console.log(Math.floor(3/2));
 
 function setInitialCondition1(){
 let aliveCords = [];
@@ -29,7 +43,7 @@ aliveCords.push([10,0]);
 return aliveCords;
 }
 
-function drawBoard (cords){
+function drawBoard(cords){
 let aliveCords = [];
 for (i =0; i<cords.length; i +=1){
 	x = cords[i][0];
@@ -135,17 +149,13 @@ return surroundingCords;
 
 function getUnique (cords){
 	let uniqueCords = [];
-
 	for (let indexOuter = 0; indexOuter < cords.length; indexOuter += 1) {
 		let notUnique = false;
 		let x = cords[indexOuter][0];
 		let y = cords[indexOuter][1];
-		console.log("here");
 		for (let indexInner = 0; indexInner < uniqueCords.length; indexInner += 1){
-			console.log("checking "+x+ " and " + y + " vs "+ uniqueCords[indexInner][0]+ " and " + uniqueCords[indexInner][1]);
 			if (uniqueCords[indexInner][0] === x && uniqueCords[indexInner][1] === y){
 				notUnique = true;
-				console.log("TRUE");
 			}
 		}
 		if (!notUnique) uniqueCords.push([x,y]);  
@@ -167,6 +177,7 @@ function getCordsToBeChecked (activeBoardCords) {
 	cordsToBeChecked = getUnique(cordsToBeChecked);
 return cordsToBeChecked;
 }
+
 //@returns array of corrdinates of next turns population
 function getNextBoard (activeBoardCords) {
 	//nextPop
@@ -180,8 +191,7 @@ function getNextBoard (activeBoardCords) {
 return nextActiveBoardCords;
 }
 
-//@ returns an array of min & max cords of active board
-//          
+//@ returns an array of min & max cords of active board  
 function getActiveBoardCords(nextPop){
 	let aliveCords = [];
 	for(let x = 0; x < boardWidth; x += 1){
@@ -195,31 +205,25 @@ function getActiveBoardCords(nextPop){
 return aliveCords;
 }
 
-
 function playGame() {
-requestAnimationFrame(playGame);
-
+  requestAnimationFrame(playGame);
+  if (!paused) {
  let newBoard = getNextBoard(activeBoardCords);
  c.clearRect(0,0,windowWidth,windowHeight);
- // if (first){
- // 	clearBoard();
- // 	first = false;
- // }
  drawBoard(newBoard);
  activeBoardCords = newBoard;
+  }
 }
 
 c.fillStyle = 'rgba(0,0,0,1)';
-
 let offset = 100;
 let offset2 = 200;
 let offset3 = 300;
 let testBoard = [[20+offset,0+offset],[20+offset,10+offset],[20+offset,20+offset],[10+offset,20+offset],[0+offset,10+offset]];
 let testBoard2 = [[20+offset2,0+offset],[20+offset2,10+offset],[20+offset2,20+offset],[10+offset2,20+offset],[0+offset2,10+offset]];
-// let testBoard3 = [[20+offset3,0+offset],[20+offset3,10+offset],[20+offset3,20+offset],[10+offset3,20+offset],[0+offset3,10+offset]];
+let testBoard3 = [[20+offset3,0+offset],[20+offset3,10+offset],[20+offset3,20+offset],[10+offset3,20+offset],[0+offset3,10+offset]];
 let testBoard4 = testBoard.concat(testBoard2);
+testBoard4 = testBoard4.concat(testBoard3);
 let activeBoardCords = drawBoard(testBoard4);
-console.log(activeBoardCords);
-first = true;
-// clearBoard();
 playGame();
+
